@@ -4,7 +4,7 @@
 
 void preencher_matriz(int linhas, int colunas, int mat[linhas][colunas]);
 void mostrar_matriz(int linhas, int colunas, int mat[linhas][colunas]);
-void produto_matrizes(int linhas, int colunas,int mat1[linhas], int mat2[colunas]);
+void produto_matrizes(int linhas, int colunas,int elementos, int mat1[linhas][colunas], int mat2[linhas][colunas]);
 
 int main(){
     srand(time(NULL));
@@ -37,7 +37,12 @@ int main(){
     printf("matriz 2:\n");
     mostrar_matriz(l2,c2,matriz2);
 
-    produto_matrizes(l1,c2,matriz1,matriz2);
+    if(c1==l2){
+        produto_matrizes(l1, c2, c1, matriz1, matriz2);
+    }else{
+        printf("ERROR: impossivel multiplicar M1(%dx%d) por M2(%dx%d).\ncolunas da Matriz 1 devem ser iguais as linhas da Matriz 2.",l1,c1,l2,c2);
+    }
+
 
     return 0;
 }
@@ -58,16 +63,17 @@ void mostrar_matriz(int linhas, int colunas, int mat[linhas][colunas]){
     }
 }
 
-void produto_matrizes(int linhas, int colunas,int mat1[linhas], int mat2[colunas]){
+void produto_matrizes(int linhas, int colunas,int elementos, int mat1[linhas][colunas], int mat2[linhas][colunas]){
     printf("produto da matriz 1 com a matriz 2: \n");
     int produto[linhas][colunas];
     for(int i = 0;i< linhas ; i++){
         for(int j =0 ; j< colunas;j++){
-            for(int k =0; k< linhas ; k++){
-                produto[i][j]+=(mat1[k]*mat2[k]);
+            produto[i][j] = 0;
+            for(int k =0; k< elementos ; k++){
+                produto[i][j]+= (mat1[i][k] * mat2[k][j]);
             }
         }
+            
     }
-
     mostrar_matriz(linhas,colunas,produto);
 }
